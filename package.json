@@ -2,9 +2,6 @@
   "name": "ng-forward-demo",
   "version": "1.0.0",
   "description": "A webpack starter for ng-forward and typescript",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [],
   "author": "Bruce Gong",
   "scripts": {
@@ -17,8 +14,13 @@
       "type": "MIT",
       "url": "https://github.com/angular/angular.io/blob/master/LICENSE"
     }
-  ],  "dependencies": {
+  ],
+  "dependencies": {
     "angular": "^1.5.8",
+    "angular-block-ui": "^0.2.2",
+    "angular-ui-bootstrap": "^2.2.0",
+    "angular-ui-router": "^0.2.15",
+    "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "ng-forward": "0.0.1-alpha.12",
     "reflect-metadata": "^0.1.8"

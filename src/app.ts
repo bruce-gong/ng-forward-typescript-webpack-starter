@@ -1,4 +1,7 @@
 import {Component, Injectable, Inject, EventEmitter, Input, Output, bootstrap} from 'ng-forward';
+import 'angular-ui-router';
+import 'angular-ui-bootstrap';
+import 'angular-block-ui';
 
 @Injectable()
 @Inject('$q', '$timeout')
@@ -13,11 +16,12 @@ class TestService{
 }
 
 @Component({ selector: 'nested', template: '<h3>Nested</h3>' })
-class Nested{ }
+
+class Nested1{ }
 
 @Component({
     selector: 'inner-app',
-    directives: [Nested],
+    directives: [Nested1],
     template: `
         <h2>Inner app</h2>
         <p>ES7 async resolved value: {{ ctrl.num || 'resolving...' }}</p>
@@ -49,6 +53,8 @@ class InnerApp{
 
     @Output() event2 = new EventEmitter();
     @Output() event1 = new Event('event1', {bubbles: true});
+    
+    num = 0;
 
     constructor(public TestService, public $element){
         this.resolveValue();
@@ -70,10 +76,10 @@ class InnerApp{
 
 @Component({
     selector: 'app',
-    providers: [TestService],
-    directives: [InnerApp, Nested],
+    providers: [TestService, 'ui.bootstrap', 'ui.router', 'blockUI'],
+    directives: [InnerApp, Nested1],
     template: `
-        <h1>App</h1>
+        <h1>Hello Railinc!</h1>
         <nested></nested>
         <p>Trigger count: {{ ctrl.triggers }}</p>
 
@@ -87,18 +93,36 @@ class InnerApp{
         <inner-app (event1)="ctrl.onIncrement()" (event2)="ctrl.onIncrement()"
                    [message1]="ctrl.message1" [(message2)]="ctrl.message2" message3="Hey, inner app... nothin'">
         </inner-app>
+        
+        <hr/>
+        <div uib-alert style="background-color:#fa39c3;color:white">A happy alert!</div>
+        
     `
 })
+@Inject('blockUI', '$timeout')
 class AppCtrl{
-    constructor(){
+    triggers;
+    message1;
+    message2;
+    
+    constructor(private blockUI, private $timeout){
         this.triggers = 0;
         this.message1 = 'Hey, inner app, you can not change this';
         this.message2 = 'Hey, inner app, change me';
     }
 
+    ngOnInit() {
+        console.log("ngOnInit");
+        // Block the user interface
+        this.blockUI.start();
+        this.$timeout(() => this.blockUI.message('Still loading ...'), 5000);
+        this.$timeout(() => this.blockUI.stop(), 15000);
+    }
     onIncrement(){
         this.triggers++;
     }
+    
+
 }
 
 bootstrap(AppCtrl);

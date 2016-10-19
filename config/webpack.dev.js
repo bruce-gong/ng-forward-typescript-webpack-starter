@@ -4,7 +4,8 @@ var commonConfig = require('./webpack.common.js');
 var helpers = require('./helpers');
 
 module.exports = webpackMerge(commonConfig, {
-  devtool: 'cheap-module-eval-source-map',
+  // devtool: 'cheap-module-eval-source-map',
+  devtool: 'source-map', // enable sourcemaps for debugging webpack's output
 
   output: {
     path: helpers.root('dist'),

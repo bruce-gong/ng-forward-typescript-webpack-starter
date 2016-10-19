@@ -7,12 +7,13 @@ var helpers = require('./helpers');
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 
 module.exports = webpackMerge(commonConfig, {
-  devtool: 'source-map',
+  devtool: 'source-map', // enable sourcemaps for debugging webpack's output
+  // devtool: 'cheap-module-eval-source-map', // use this if you don't want sourcemap files
 
   output: {
     path: helpers.root('dist'),
     publicPath: '/',
-    filename: '[name].[hash].js',
+    filename: 'bundle.[name].[hash].js',//generates file name with cache-busting hash
     chunkFilename: '[id].[hash].chunk.js'
   },
 

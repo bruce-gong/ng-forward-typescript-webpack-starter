@@ -6,16 +6,22 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var helpers = require('./helpers');
 
 module.exports = {
+  // webpack will analyze your entry file for dependencies to other files. 
+  // These files (called modules) are included in your bundle.js too. 
+  // webpack will give each module a unique id and save all modules accessible by id in the bundle.js file. 
+  // Only the entry module is executed on startup. A small runtime provides the require function and executes the dependencies when required
   entry: {
-    'polyfills': './src/polyfills.ts',
+    // 'polyfills': './src/polyfills.ts',
     'vendor': './src/vendor.ts',
-    'app': './src/main.ts'
+    'app': './src/app.ts'
   },
-
+  // Most import statements won't mention the extension.
+  // So we tell Webpack to resolve module file requests by looking for matching files with
+  // 1. an explict extension; 2 .js extension; 3. .ts extension
   resolve: {
     extensions: ['', '.js', '.ts']
   },
-
+  // specify the loaders
   module: {
     loaders: [
       {
@@ -47,7 +53,8 @@ module.exports = {
 // We rely on the CommonsChunkPlugin to do that job.
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
-      name: ['app', 'vendor', 'polyfills']
+      name: ['app', 'vendor']
+      // name: ['app', 'vendor', 'polyfills']
     }),
 
     new HtmlWebpackPlugin({
